@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import axios from '../../axios-order'
 import Aux from '../../hoc/Auxiliary'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
@@ -47,7 +47,8 @@ class BurgerBuilder extends Component {
       const updatedIngredients = { ...this.state.ingredients }
 
       updatedIngredients[ type ] = updatedCount
-      const price = INGREDIENT_PRICES[ type ] - this.state.totalPrice
+      const price = this.state.totalPrice - INGREDIENT_PRICES[ type ]
+      console.log(INGREDIENT_PRICES[ type ])
       this.setState({ totalPrice: price, ingredients: updatedIngredients })
       this.updatePurchasableState(updatedIngredients)
     }
@@ -62,7 +63,22 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    alert('your continued!')
+    axios.post('/orders.json', {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: "idrees",
+        address: {
+          street: 'test 01',
+          zipCode: '23453',
+          country: 'sweden'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'fastest'
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   }
   render() {
     const disabledInfo = {
