@@ -21,8 +21,8 @@
     width:  max-content;
     box-sizing: border-box;
     display: block;
-    margin-bottom: 32px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+
 }
 
 .NavigationItem a:hover,
