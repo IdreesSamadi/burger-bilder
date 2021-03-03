@@ -82,6 +82,7 @@ class ContactData extends Component {
       deliveryMethod: {
         elementType: 'select',
         elementConfig: {
+          // TODO: validation rule for delivery method has bug, fix it
           options: [
             { value: 'fastest', displayValue: 'fastest' },
             { value: 'Cheapest', displayValue: 'Cheapest' }
@@ -98,6 +99,9 @@ class ContactData extends Component {
   checkValidity(rules, value) {
     let isValid = true
 
+    if (!rules) {
+      return true;
+    }
     if (rules.required) {
       isValid = value.trim() !== '' && isValid
     }
@@ -109,6 +113,11 @@ class ContactData extends Component {
     if (rules.maxLength) {
       isValid = value.length <= 5 && isValid
     }
+
+    // if (rules.isEmail) {
+    //   const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    //   isValid = pattern.test(value) && isValid
+    // }
     return isValid
   }
 
@@ -137,11 +146,12 @@ class ContactData extends Component {
 
     updatedFormElement.touched = true
 
+    formCopy[ inputIdentifier ] = updatedFormElement;
+
     let formIsValid = true
     for (let identifier in formCopy) {
       formIsValid = formCopy[ identifier ].valid && formIsValid
     }
-    formCopy[ inputIdentifier ] = updatedFormElement
     this.setState({ formData: formCopy, formIsValid: formIsValid })
   }
   render() {
