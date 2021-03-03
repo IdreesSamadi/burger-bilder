@@ -1,6 +1,11 @@
 .CheckoutSummary {
   text-align: center;
-  width: 80%;
+  width: 100% !important;
+  margin: auto;
+}
+
+.container{
+  width: 100% !important;
   margin: auto;
 }
 
