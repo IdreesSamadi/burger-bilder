@@ -82,8 +82,10 @@ class ContactData extends Component {
       deliveryMethod: {
         elementType: 'select',
         elementConfig: {
-          options: [ { value: 'fastest', displayValue: 'fastest' },
-          { value: 'Cheatpest', displayValue: 'Cheatpest' } ]
+          options: [
+            { value: 'fastest', displayValue: 'fastest' },
+            { value: 'Cheapest', displayValue: 'Cheapest' }
+          ]
         },
         value: 'fastest',
         validationRules: {},
@@ -128,7 +130,11 @@ class ContactData extends Component {
     const formCopy = { ...this.state.formData }
     const updatedFormElement = { ...formCopy[ inputIdentifier ] }
     updatedFormElement.value = event.target.value
-    updatedFormElement.valid = this.checkValidity(updatedFormElement.validationRules, updatedFormElement.value)
+    updatedFormElement.valid = this.checkValidity(
+      updatedFormElement.validationRules,
+      updatedFormElement.value
+    )
+
     updatedFormElement.touched = true
 
     let formIsValid = true
@@ -175,9 +181,9 @@ class ContactData extends Component {
 
 const mapStateToProps = (state) => (
   {
-    ingredients: state.ingredients,
-    price: state.totalPrice,
-    loading: state.loading
+    ingredients: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.loading
   }
 )
 
