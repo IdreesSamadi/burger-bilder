@@ -100,7 +100,7 @@ class ContactData extends Component {
     let isValid = true
 
     if (!rules) {
-      return true;
+      return true
     }
     if (rules.required) {
       isValid = value.trim() !== '' && isValid
@@ -122,7 +122,7 @@ class ContactData extends Component {
   }
 
   orderHandler = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const formData = {}
     for (let identifier in this.state.formData) {
       formData[ identifier ] = this.state.formData[ identifier ].value
@@ -132,7 +132,7 @@ class ContactData extends Component {
       price: this.props.price,
       orderData: formData
     }
-    this.props.onOrderBurger(order)
+    this.props.onOrderBurger(order, this.props.token)
   }
 
   changeHandler = (event, inputIdentifier) => {
@@ -146,7 +146,7 @@ class ContactData extends Component {
 
     updatedFormElement.touched = true
 
-    formCopy[ inputIdentifier ] = updatedFormElement;
+    formCopy[ inputIdentifier ] = updatedFormElement
 
     let formIsValid = true
     for (let identifier in formCopy) {
@@ -155,7 +155,7 @@ class ContactData extends Component {
     this.setState({ formData: formCopy, formIsValid: formIsValid })
   }
   render() {
-    const formElementArray = [];
+    const formElementArray = []
     for (let key in this.state.formData) {
       formElementArray.push({
         id: key,
@@ -193,13 +193,14 @@ const mapStateToProps = (state) => (
   {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token
   }
 )
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
