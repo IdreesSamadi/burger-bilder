@@ -20,12 +20,18 @@ class BurgerBuilder extends Component {
     this.props.onInitIngredient()
   }
   updatePurchasableState(ingredients) {
-    const sum = Object.values(ingredients).reduce((sum, el) => { return +sum + el }, 0);
+    const sum = Object.values(ingredients).reduce((sum, el) => { return +sum + el }, 0)
     return sum > 0
   }
 
   purchaseModeHandler = () => {
-    this.setState({ purchasing: true })
+    if (this.props.isAuthenticated) {
+      this.setState({ purchasing: true })
+    } else {
+      this.props.onSetAuthRedirectPath('/checkout')
+      this.props.history.push('/auth')
+    }
+
   }
 
   purchaseCancelHandler = () => {
@@ -57,7 +63,9 @@ class BurgerBuilder extends Component {
           disabled={ disabledInfo }
           price={ this.props.price }
           purchasable={ this.updatePurchasableState(this.props.ings) }
-          ordered={ this.purchaseModeHandler } />
+          ordered={ this.purchaseModeHandler }
+          isAuth={ this.props.isAuthenticated } />
+
       </Aux>
 
       orderSummary = <OrderSummary
@@ -81,7 +89,8 @@ const mapStateToProps = (state) => (
   {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    error: state.burgerBuilder.error
+    error: state.burgerBuilder.error,
+    isAuthenticated: state.auth.token !== null
   })
 
 const mapDispatchToProps = (dispatch) => {
@@ -89,9 +98,10 @@ const mapDispatchToProps = (dispatch) => {
     onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
     onInitIngredient: () => dispatch(actions.initIngredient()),
-    onInitPurchase: () => dispatch(actions.purchaseInit())
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
+    onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
 
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))
