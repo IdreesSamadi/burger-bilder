@@ -12,10 +12,6 @@ class Layout extends Component {
   sideDrawerCloseHandler = () => {
     this.setState({ showSideDrawer: false })
   }
-
-  componentDidMount = () => {
-    console.log(this.props.token)
-  }
   showSideDrawerHandler = () => {
     this.setState((prevState) => { return { showSideDrawer: !prevState.showSideDrawer } })
   }

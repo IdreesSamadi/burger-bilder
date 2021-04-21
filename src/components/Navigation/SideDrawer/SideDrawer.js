@@ -13,7 +13,7 @@ export default (props) => {
   return (
     <Auxiliary>
       <Backdrop show={ props.open } clicked={ props.closed }></Backdrop>
-      <div className={ attachClasses.join(' ') }>
+      <div onClick={ props.closed } className={ attachClasses.join(' ') }>
         <div className={ classes.Logo }>
           <Logo />
         </div>

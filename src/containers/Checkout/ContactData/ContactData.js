@@ -6,7 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index'
-
+import { checkValidity } from '../../../shared/utility'
 import { connect } from 'react-redux'
 
 class ContactData extends Component {
@@ -96,31 +96,6 @@ class ContactData extends Component {
     formIsValid: false
   }
 
-  checkValidity(rules, value) {
-    let isValid = true
-
-    if (!rules) {
-      return true
-    }
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= 5 && isValid
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= 5 && isValid
-    }
-
-    // if (rules.isEmail) {
-    //   const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-    //   isValid = pattern.test(value) && isValid
-    // }
-    return isValid
-  }
-
   orderHandler = (event) => {
     event.preventDefault()
     const formData = {}
@@ -140,7 +115,7 @@ class ContactData extends Component {
     const formCopy = { ...this.state.formData }
     const updatedFormElement = { ...formCopy[ inputIdentifier ] }
     updatedFormElement.value = event.target.value
-    updatedFormElement.valid = this.checkValidity(
+    updatedFormElement.valid = checkValidity(
       updatedFormElement.validationRules,
       updatedFormElement.value
     )
