@@ -14,7 +14,6 @@ export const authSuccess = (token, userId) => {
     userId
   }
 }
-
 export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
@@ -56,19 +55,18 @@ export const auth = (email, password, isSignup) => {
     }
     ).catch(err => {
       let errorMessage
-      if (err.response.data.error === 'INVALID_EMAIL') {
+      if (err.response.data.error.message === 'INVALID_EMAIL') {
         errorMessage = 'Invalid Email - Please Provide a Valid Email'
       }
-      else if (err.response.data.error === "EMAIL_EXISTS") {
+      else if (err.response.data.error.message === 'EMAIL_EXISTS') {
         errorMessage = 'Email Already in use - Please Use Another Email'
       }
-      else if (err.response.data.error === 'INVALID_PASSWORD') {
+      else if (err.response.data.error.message === 'INVALID_PASSWORD') {
         errorMessage = 'Wrong Email or Password - Please Try Again'
       }
       else {
         errorMessage = 'Something Went Wrong - Please Try Again'
       }
-      console.log(errorMessage)
       dispatch(authFail(errorMessage))
     })
   }
